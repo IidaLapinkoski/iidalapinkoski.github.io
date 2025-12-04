@@ -14,6 +14,7 @@ function App() {
   const scrollTimeoutRef = useRef(null)
   const touchStartRef = useRef(null)
   const touchEndRef = useRef(null)
+  const prevSectionRef = useRef(0)
 
   const sections = [
     { id: 'header', label: 'Home', component: Header },
@@ -25,6 +26,15 @@ function App() {
     const root = document.documentElement
     root.setAttribute('data-theme', theme)
   }, [theme])
+
+  // Track previous section for outgoing animations and scroll to top
+  useEffect(() => {
+    const activeSection = document.querySelector('.section.active')
+    if (activeSection) {
+      activeSection.scrollTop = 0
+    }
+    prevSectionRef.current = currentSection
+  }, [currentSection])
 
   const toggleTheme = () => {
     setTheme(prev => prev === 'dark' ? 'light' : 'dark')
@@ -41,8 +51,10 @@ function App() {
       targetSection.scrollTop = 0
     }
     
+    // Determine direction for animation
+    const direction = index > currentSection ? 'down' : 'up'
+    setScrollDirection(direction)
     setCurrentSection(index)
-    setScrollDirection(null)
 
     if (scrollTimeoutRef.current) {
       clearTimeout(scrollTimeoutRef.current)
@@ -50,6 +62,7 @@ function App() {
     
     scrollTimeoutRef.current = setTimeout(() => {
       setIsTransitioning(false)
+      setScrollDirection(null)
     }, 1000)
   }
 
@@ -94,7 +107,8 @@ function App() {
     
     scrollTimeoutRef.current = setTimeout(() => {
       setIsTransitioning(false)
-    }, 800)
+      setScrollDirection(null)
+    }, 1000)
   }
 
   const handleTouchStart = (e) => {
@@ -152,7 +166,8 @@ function App() {
     
     scrollTimeoutRef.current = setTimeout(() => {
       setIsTransitioning(false)
-    }, 800)
+      setScrollDirection(null)
+    }, 1000)
   }
 
   useEffect(() => {
@@ -171,27 +186,9 @@ function App() {
       return 'active'
     }
     
-    // If scrollDirection is null, it's a nav click - use fade only
-    if (scrollDirection === null) {
-      return 'fade-out'
-    }
-    
-    if (scrollDirection === 'down') {
-      // When scrolling down: current section moves UP and out, next section comes from BOTTOM
-      if (index === (currentSection - 1 + sections.length) % sections.length) {
-        return 'outgoing' // Previous section moves up
-      }
-      if (index === (currentSection + sections.length) % sections.length) {
-        return 'incoming' // Next section comes from bottom
-      }
-    } else if (scrollDirection === 'up') {
-      // When scrolling up: current section moves DOWN and out, previous section comes from UP
-      if (index === (currentSection + 1) % sections.length) {
-        return 'outgoing-up' // Next section moves down
-      }
-      if (index === (currentSection - 1 + sections.length) % sections.length) {
-        return 'incoming-up' // Previous section comes from top
-      }
+    // The outgoing section is always the previous one (before transition)
+    if (index === prevSectionRef.current) {
+      return scrollDirection === 'down' ? 'outgoing' : 'outgoing-up'
     }
     
     return 'below'

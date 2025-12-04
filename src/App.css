@@ -56,17 +56,18 @@ body {
   align-items: flex-start;
   justify-content: center;
   opacity: 0;
+  visibility: hidden;
   pointer-events: none;
   overflow-y: auto;
   overflow-x: hidden;
-  transform: translateY(0);
 }
 
 .section.active {
   opacity: 1;
+  visibility: visible;
   pointer-events: auto;
   z-index: 10;
-  animation: fadeIn 0.6s ease 0.4s both;
+  animation: fadeIn 0.5s ease 0.5s both;
 }
 
 @keyframes fadeIn {
@@ -87,62 +88,18 @@ body {
   }
 }
 
-/* Nav click - fade only, no transform */
-.section[data-position="fade-out"].active {
-  animation: fadeIn 0.6s ease 0.4s both;
-}
-
-/* Scrolling animations with transform */
+/* Outgoing section fades out quickly */
 .section[data-position="outgoing"],
-.section[data-position="incoming"],
-.section[data-position="outgoing-up"],
-.section[data-position="incoming-up"],
-.section[data-position="below"] {
-  transition: all var(--transition-duration) var(--transition-timing);
-}
-
-/* Nav click fade animation - fade out immediately */
-.section[data-position="fade-out"] {
-  opacity: 0;
-  transform: translateY(0);
-  z-index: 0;
-  animation: fadeOut 0.4s ease 0s both;
-}
-
-/* Scrolling DOWN animations */
-/* Current section moves up and fades out */
-.section[data-position="outgoing"] {
-  opacity: 0;
-  transform: translateY(-100%);
-  z-index: 5;
-}
-
-/* New section comes from bottom and fades in */
-.section[data-position="incoming"] {
-  opacity: 0;
-  transform: translateY(100%);
-  z-index: 1;
-}
-
-/* Scrolling UP animations (reversed) */
-/* Current section moves down and fades out */
 .section[data-position="outgoing-up"] {
-  opacity: 0;
-  transform: translateY(100%);
-  z-index: 5;
-}
-
-/* Previous section comes from top and fades in */
-.section[data-position="incoming-up"] {
-  opacity: 0;
-  transform: translateY(-100%);
+  visibility: visible;
+  animation: fadeOut 0.3s ease 0s both;
   z-index: 1;
+  pointer-events: none;
 }
 
-/* All other sections stay below */
 .section[data-position="below"] {
   opacity: 0;
-  transform: translateY(100%);
+  visibility: hidden;
   z-index: 0;
 }
 
@@ -197,4 +154,3 @@ a:hover {
     font-size: 1rem;
   }
 }
-
