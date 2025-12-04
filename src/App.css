@@ -1,42 +1,200 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+html {
+  --color-bg-primary: #0a0a0a;
+  --color-bg-secondary: #121212;
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #a0a0a0;
+  --color-accent: #666666;
+  --color-border: #2a2a2a;
+  --transition-duration: 0.8s;
+  --transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-@keyframes logo-spin {
+html[data-theme='light'] {
+  --color-bg-primary: #ffffff;
+  --color-bg-secondary: #f5f5f5;
+  --color-text-primary: #0a0a0a;
+  --color-text-secondary: #666666;
+  --color-accent: #999999;
+  --color-border: #e0e0e0;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  overflow: hidden;
+  line-height: 1.6;
+  letter-spacing: 0.02em;
+}
+
+.app {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+.sections-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.section {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  overflow-y: auto;
+  overflow-x: hidden;
+  transform: translateY(0);
+}
+
+.section.active {
+  opacity: 1;
+  pointer-events: auto;
+  z-index: 10;
+  animation: fadeIn 0.6s ease 0.4s both;
+}
+
+@keyframes fadeIn {
   from {
-    transform: rotate(0deg);
+    opacity: 0;
   }
   to {
-    transform: rotate(360deg);
+    opacity: 1;
   }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
   }
 }
 
-.card {
-  padding: 2em;
+/* Nav click - fade only, no transform */
+.section[data-position="fade-out"].active {
+  animation: fadeIn 0.6s ease 0.4s both;
 }
 
-.read-the-docs {
-  color: #888;
+/* Scrolling animations with transform */
+.section[data-position="outgoing"],
+.section[data-position="incoming"],
+.section[data-position="outgoing-up"],
+.section[data-position="incoming-up"],
+.section[data-position="below"] {
+  transition: all var(--transition-duration) var(--transition-timing);
 }
+
+/* Nav click fade animation - fade out immediately */
+.section[data-position="fade-out"] {
+  opacity: 0;
+  transform: translateY(0);
+  z-index: 0;
+  animation: fadeOut 0.4s ease 0s both;
+}
+
+/* Scrolling DOWN animations */
+/* Current section moves up and fades out */
+.section[data-position="outgoing"] {
+  opacity: 0;
+  transform: translateY(-100%);
+  z-index: 5;
+}
+
+/* New section comes from bottom and fades in */
+.section[data-position="incoming"] {
+  opacity: 0;
+  transform: translateY(100%);
+  z-index: 1;
+}
+
+/* Scrolling UP animations (reversed) */
+/* Current section moves down and fades out */
+.section[data-position="outgoing-up"] {
+  opacity: 0;
+  transform: translateY(100%);
+  z-index: 5;
+}
+
+/* Previous section comes from top and fades in */
+.section[data-position="incoming-up"] {
+  opacity: 0;
+  transform: translateY(-100%);
+  z-index: 1;
+}
+
+/* All other sections stay below */
+.section[data-position="below"] {
+  opacity: 0;
+  transform: translateY(100%);
+  z-index: 0;
+}
+
+h1 {
+  font-size: clamp(2.5rem, 8vw, 4.5rem);
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+h2 {
+  font-size: clamp(1.8rem, 6vw, 3.5rem);
+  font-weight: 300;
+  letter-spacing: -0.01em;
+  margin-bottom: 2rem;
+}
+
+h3 {
+  font-size: clamp(1.2rem, 4vw, 2rem);
+  font-weight: 400;
+  margin-bottom: 1rem;
+}
+
+p {
+  font-size: clamp(0.9rem, 2vw, 1.1rem);
+  color: var(--color-text-secondary);
+  line-height: 1.8;
+}
+
+a {
+  color: var(--color-text-primary);
+  text-decoration: none;
+  border-bottom: 1px solid var(--color-accent);
+  transition: all 0.3s ease;
+}
+
+a:hover {
+  border-bottom-color: var(--color-text-primary);
+  color: var(--color-accent);
+}
+
+@media (max-width: 768px) {
+  h1 {
+    font-size: 2rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  p {
+    font-size: 1rem;
+  }
+}
+

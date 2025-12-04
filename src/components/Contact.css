@@ -1,0 +1,134 @@
+.contact {
+  width: 100%;
+  height: 100%;
+  padding: 4rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.contact-content {
+  text-align: center;
+  max-width: 500px;
+  animation: fadeInUp 1s ease-out;
+}
+
+.contact-title {
+  margin-bottom: 2.5rem;
+}
+
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.contact-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.contact-label {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-text-secondary);
+  margin-bottom: 0.75rem;
+  opacity: 0.7;
+}
+
+.contact-link {
+  font-size: 1.1rem;
+  color: var(--color-text-primary);
+  border-bottom: 1px solid var(--color-accent);
+  transition: all 0.3s ease;
+  padding-bottom: 0.25rem;
+}
+
+.contact-link:hover {
+  border-bottom-color: var(--color-text-primary);
+  color: var(--color-accent);
+}
+
+.social-links {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.social-links .contact-link {
+  font-size: 0.95rem;
+  border-bottom: none;
+  position: relative;
+}
+
+.social-links .contact-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background-color: var(--color-text-primary);
+  transition: width 0.3s ease;
+}
+
+.social-links .contact-link:hover::after {
+  width: 100%;
+}
+
+.contact-divider {
+  width: 40px;
+  height: 1px;
+  background-color: var(--color-border);
+  margin: 0 auto;
+}
+
+.contact-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+  opacity: 0.5;
+  padding: 1.5rem;
+  text-align: center;
+  background: linear-gradient(to bottom, transparent, var(--color-bg-primary));
+  z-index: 50;
+  pointer-events: none;
+  margin: 0;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .contact {
+    padding: 2rem;
+  }
+
+  .contact-title {
+    font-size: 2rem;
+  }
+
+  .social-links {
+    gap: 1rem;
+  }
+
+  .contact-link {
+    font-size: 1rem;
+  }
+}
