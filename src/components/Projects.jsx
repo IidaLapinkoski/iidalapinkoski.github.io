@@ -4,26 +4,26 @@ export default function Projects() {
   const projects = [
     {
       id: 1,
-      title: 'Project One',
-      description: 'A beautiful exploration of color and form',
-      year: '2024',
+      title: 'LabRATory',
+      description: 'Co-op puzzle platformer game about two scientists-turned-rats trying to escape testing environemts and find their way back to human form',
+      year: '2025 - Present',
     },
     {
       id: 2,
-      title: 'Project Two',
-      description: 'Digital illustration series',
-      year: '2024',
+      title: 'Expensive Collage',
+      description: 'Game Jam game about a thief trying to create the most expensive collage',
+      year: '2025',
     },
     {
       id: 3,
-      title: 'Project Three',
-      description: 'Character design study',
-      year: '2023',
+      title: 'Way back home',
+      description: 'A childs adventure to find their way back home',
+      year: '2025',
     },
     {
       id: 4,
-      title: 'Project Four',
-      description: 'Environmental concept art',
+      title: 'Bubbling Thoughts',
+      description: 'Game Jam game about managing thoughts and emotions',
       year: '2023',
     },
   ]

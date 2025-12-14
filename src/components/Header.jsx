@@ -5,9 +5,9 @@ export default function Header() {
     <header className="header">
       <div className="header-content">
         <h1 className="header-name">Iida Lapinkoski</h1>
-        <p className="header-subtitle">2D Artist & Illustrator</p>
+        <p className="header-subtitle">2D Artist & Animator</p>
         <p className="header-description">
-          Crafting visual stories through digital art
+          Asprining 2D artist and animator, passionate about brining stories to life through engaging visuals and dynamic motion.
         </p>
         <div className="scroll-indicator">
           <span>Scroll to explore</span>
