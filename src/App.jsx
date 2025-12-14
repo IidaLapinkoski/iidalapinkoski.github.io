@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import './App.css'
 import Header from './components/Header'
 import Projects from './components/Projects'
+import About from './components/About'
 import Contact from './components/Contact'
 import Navigation from './components/Navigation'
 import ThemeToggle from './components/ThemeToggle'
@@ -19,6 +20,7 @@ function App() {
   const sections = [
     { id: 'header', label: 'Home', component: Header },
     { id: 'projects', label: 'Work', component: Projects },
+    { id: 'about', label: 'About', component: About },
     { id: 'contact', label: 'Contact', component: Contact },
   ]
 
@@ -210,6 +212,7 @@ function App() {
             >
               {section.component === Header && <Header />}
               {section.component === Projects && <Projects />}
+              {section.component === About && <About />}
               {section.component === Contact && <Contact />}
             </div>
           )
