@@ -4,6 +4,7 @@ import Header from './components/Header'
 import Projects from './components/Projects'
 import About from './components/About'
 import Contact from './components/Contact'
+import ProjectDetail from './components/ProjectDetail'
 import Navigation from './components/Navigation'
 import ThemeToggle from './components/ThemeToggle'
 
@@ -12,6 +13,7 @@ function App() {
   const [currentSection, setCurrentSection] = useState(0)
   const [isTransitioning, setIsTransitioning] = useState(false)
   const [scrollDirection, setScrollDirection] = useState(null)
+  const [selectedProjectId, setSelectedProjectId] = useState(null)
   const scrollTimeoutRef = useRef(null)
   const touchStartRef = useRef(null)
   const touchEndRef = useRef(null)
@@ -47,6 +49,9 @@ function App() {
     
     setIsTransitioning(true)
     
+    // Update prevSectionRef to the target section so Work doesn't animate out
+    prevSectionRef.current = index
+    
     // Scroll to top immediately before transition
     const targetSection = document.querySelectorAll('.section')[index]
     if (targetSection) {
@@ -56,7 +61,11 @@ function App() {
     // Determine direction for animation
     const direction = index > currentSection ? 'down' : 'up'
     setScrollDirection(direction)
+    
+    // Set the new section BEFORE clearing the project so the correct section renders
     setCurrentSection(index)
+    // Clear project detail page
+    setSelectedProjectId(null)
 
     if (scrollTimeoutRef.current) {
       clearTimeout(scrollTimeoutRef.current)
@@ -86,20 +95,17 @@ function App() {
         
         // When scrolling down and not at bottom, don't switch sections
         if (direction === 'down' && !isAtBottom) {
-          e.preventDefault?.()
           return
         }
         
         // When scrolling up and not at top, don't switch sections
         if (direction === 'up' && !isAtTop) {
-          e.preventDefault?.()
           return
         }
       }
     }
 
     setScrollDirection(direction)
-    
     setIsTransitioning(true)
     setCurrentSection(prev => (prev + (direction === 'down' ? 1 : -1) + sections.length) % sections.length)
 
@@ -198,25 +204,30 @@ function App() {
 
   return (
     <div className="app">
-      <ThemeToggle theme={theme} onToggle={toggleTheme} />
-      <Navigation sections={sections} currentSection={currentSection} onNavigate={handleNavigate} />
+      <Navigation sections={sections} currentSection={currentSection} onNavigate={handleNavigate} onSelectProject={setSelectedProjectId} theme={theme} onToggleTheme={toggleTheme} />
       <div className="sections-container">
-        {sections.map((section, index) => {
-          const positionClass = getPositionClass(index)
-          
-          return (
-            <div
-              key={section.id}
-              className={`section ${positionClass}`}
-              data-position={positionClass !== 'active' ? positionClass : undefined}
-            >
-              {section.component === Header && <Header />}
-              {section.component === Projects && <Projects />}
-              {section.component === About && <About />}
-              {section.component === Contact && <Contact />}
-            </div>
-          )
-        })}
+        {selectedProjectId !== null ? (
+          <div className="section active">
+            <ProjectDetail projectId={selectedProjectId} onBack={() => setSelectedProjectId(null)} />
+          </div>
+        ) : (
+          sections.map((section, index) => {
+            const positionClass = getPositionClass(index)
+            
+            return (
+              <div
+                key={section.id}
+                className={`section ${positionClass}`}
+                data-position={positionClass !== 'active' ? positionClass : undefined}
+              >
+                {section.component === Header && <Header />}
+                {section.component === Projects && <Projects onSelectProject={setSelectedProjectId} />}
+                {section.component === About && <About />}
+                {section.component === Contact && <Contact />}
+              </div>
+            )
+          })
+        )}
       </div>
     </div>
   )

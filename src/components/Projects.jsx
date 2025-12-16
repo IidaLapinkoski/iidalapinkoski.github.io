@@ -1,6 +1,6 @@
 import './Projects.css'
 
-export default function Projects() {
+export default function Projects({ onSelectProject }) {
   const projects = [
     {
       id: 1,
@@ -34,7 +34,13 @@ export default function Projects() {
         <h2 className="projects-title">Work</h2>
         <div className="projects-grid">
           {projects.map(project => (
-            <div key={project.id} className="project-card">
+            <div 
+              key={project.id} 
+              className="project-card"
+              onClick={() => onSelectProject(project.id)}
+              role="button"
+              tabIndex={0}
+            >
               <div className="project-placeholder">
                 <span>Image: {project.title}</span>
               </div>

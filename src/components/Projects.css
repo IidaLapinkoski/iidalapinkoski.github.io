@@ -26,12 +26,14 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 2rem;
+  padding-bottom: 10rem;
 }
 
 .project-card {
   display: flex;
   flex-direction: column;
   transition: transform 0.3s ease;
+  cursor: pointer;
 }
 
 .project-card:hover {
@@ -50,7 +52,7 @@
   color: var(--color-text-secondary);
   font-size: 0.9rem;
   border-radius: 4px;
-  transition: all 0.3s ease;
+  will-change: background-color, border-color, color;
 }
 
 .project-card:hover .project-placeholder {
