@@ -78,6 +78,9 @@ function App() {
   }
 
   const handleScroll = (e) => {
+    // Don't change sections when viewing a project detail page
+    if (selectedProjectId !== null) return
+    
     if (isTransitioning) return
 
     const direction = e.deltaY > 0 ? 'down' : 'up'
