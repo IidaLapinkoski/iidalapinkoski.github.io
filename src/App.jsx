@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import './App.css'
 import Header from './components/Header'
 import Projects from './components/Projects'
@@ -77,7 +77,7 @@ function App() {
     }, 1000)
   }
 
-  const handleScroll = (e) => {
+  const handleScroll = useCallback((e) => {
     // Don't change sections when viewing a project detail page
     if (selectedProjectId !== null) return
     
@@ -120,14 +120,17 @@ function App() {
       setIsTransitioning(false)
       setScrollDirection(null)
     }, 1000)
-  }
+  }, [isTransitioning, selectedProjectId, sections])
 
-  const handleTouchStart = (e) => {
+  const handleTouchStart = useCallback((e) => {
     touchStartRef.current = e.targetTouches[0].clientY
-  }
+  }, [])
 
-  const handleTouchEnd = (e) => {
+  const handleTouchEnd = useCallback((e) => {
     if (!touchStartRef.current) return
+
+    // Don't change sections when viewing a project detail page
+    if (selectedProjectId !== null) return
 
     touchEndRef.current = e.changedTouches[0].clientY
     const distance = touchStartRef.current - touchEndRef.current
@@ -179,7 +182,7 @@ function App() {
       setIsTransitioning(false)
       setScrollDirection(null)
     }, 1000)
-  }
+  }, [isTransitioning, selectedProjectId, sections])
 
   useEffect(() => {
     window.addEventListener('wheel', handleScroll, { passive: true })
@@ -190,7 +193,7 @@ function App() {
       window.removeEventListener('touchstart', handleTouchStart)
       window.removeEventListener('touchend', handleTouchEnd)
     }
-  }, [isTransitioning])
+  }, [handleScroll, handleTouchStart, handleTouchEnd])
 
   const getPositionClass = (index) => {
     if (index === currentSection) {

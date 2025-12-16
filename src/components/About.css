@@ -55,6 +55,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  text-align: center;
   color: var(--color-text-secondary);
   border-radius: 8px;
   min-height: 300px;
@@ -80,6 +81,10 @@
   .about-image {
     flex: 0 0 auto;
     width: 100%;
+  }
+
+  .about-image {
+    padding-bottom: 5rem;
   }
 
   .about-content h2 {
