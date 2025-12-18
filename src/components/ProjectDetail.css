@@ -107,6 +107,7 @@
 @media (max-width: 768px) {
   .project-detail {
     padding: 1.5rem;
+    padding-bottom: 5rem;
   }
 
   .back-button {
@@ -117,10 +118,12 @@
 
   .project-detail-content {
     margin-top: 3rem;
+    padding-bottom: 3rem;
   }
 
   .project-detail-description {
     padding: 1.5rem;
     min-height: 120px;
+    margin-bottom: 2rem;
   }
 }
