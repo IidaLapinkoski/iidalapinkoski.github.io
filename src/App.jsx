@@ -77,6 +77,14 @@ function App() {
     }, 1000)
   }
 
+  const handleSelectProject = (projectId) => {
+    setSelectedProjectId(projectId)
+  }
+
+  const handleBackFromProject = () => {
+    setSelectedProjectId(null)
+  }
+
   const handleScroll = useCallback((e) => {
     // Don't change sections when viewing a project detail page
     if (selectedProjectId !== null) return
@@ -210,11 +218,11 @@ function App() {
 
   return (
     <div className="app">
-      <Navigation sections={sections} currentSection={currentSection} onNavigate={handleNavigate} onSelectProject={setSelectedProjectId} theme={theme} onToggleTheme={toggleTheme} />
+      <Navigation sections={sections} currentSection={currentSection} onNavigate={handleNavigate} onSelectProject={handleSelectProject} theme={theme} onToggleTheme={toggleTheme} />
       <div className="sections-container">
         {selectedProjectId !== null ? (
           <div className="section active">
-            <ProjectDetail projectId={selectedProjectId} onBack={() => setSelectedProjectId(null)} />
+            <ProjectDetail projectId={selectedProjectId} onBack={handleBackFromProject} />
           </div>
         ) : (
           sections.map((section, index) => {
